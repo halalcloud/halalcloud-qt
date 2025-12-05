@@ -47,7 +47,7 @@ cmake ^
   -DFEATURE_system_zlib=OFF ^
   -DFEATURE_direct2d=OFF ^
   -DFEATURE_directwrite=OFF ^
-  ../../../../qtbase
+  ../../../../../qtbase
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
 cmake --build . --parallel
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
@@ -60,7 +60,7 @@ pushd %ObjectFolder%\qtsvg
 cmake ^
   -DCMAKE_PREFIX_PATH=%BinaryFolder% ^
   -DCMAKE_INSTALL_PREFIX=%BinaryFolder% ^
-  %CommonOptions% ../../../../qtsvg
+  %CommonOptions% ../../../../../qtsvg
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
 cmake --build . --parallel
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
@@ -73,7 +73,7 @@ pushd %ObjectFolder%\qttools
 cmake ^
   -DCMAKE_PREFIX_PATH=%BinaryFolder% ^
   -DCMAKE_INSTALL_PREFIX=%BinaryFolder% ^
-  %CommonOptions% ../../../../qttools
+  %CommonOptions% ../../../../../qttools
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
 cmake --build . --parallel
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
@@ -86,7 +86,7 @@ pushd %ObjectFolder%\qttranslations
 cmake ^
   -DCMAKE_PREFIX_PATH=%BinaryFolder% ^
   -DCMAKE_INSTALL_PREFIX=%BinaryFolder% ^
-  %CommonOptions% ../../../../qttranslations
+  %CommonOptions% ../../../../../qttranslations
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
 cmake --build . --parallel
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
