@@ -12,7 +12,7 @@ for /f "usebackq tokens=*" %%i in (`vswhere -latest -products * -requires Micros
 popd
 
 set ToolsetArch=amd64_x86
-if "PROCESSOR_ARCHITECTURE"=="ARM64" set ToolsetArch=arm64_x86
+if "%PROCESSOR_ARCHITECTURE%"=="ARM64" set ToolsetArch=arm64_x86
 call "%VisualStudioInstallDir%\VC\Auxiliary\Build\vcvarsall.bat" %ToolsetArch%
 
 set ObjectFolder="%~dp0Output\Objects\x86"
