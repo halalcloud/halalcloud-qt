@@ -1,0 +1,31 @@
+﻿name: Build Binaries
+
+on:
+  push:
+    paths-ignore:
+      - '.github/*'
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - '.github/*'
+      - '*.md'
+
+jobs:
+  build:
+    runs-on: windows-11-arm
+    env:
+      POWERSHELL_TELEMETRY_OPTOUT: 1
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+    - name: Build x86
+      run: onekey-build-x86.bat
+    - name: Build x64
+      run: onekey-build-x64.bat
+    - name: Build ARM64
+      run: onekey-build-arm64.bat
+    - uses: actions/upload-artifact@v4
+      with:
+        name: halalcloud-qt-binaries
+        path: Output\Binaries
