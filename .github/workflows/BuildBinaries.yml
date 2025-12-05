@@ -21,7 +21,10 @@ jobs:
         submodules: 'recursive'
     - name: Apply Patch
       shell: cmd
-      run: apply-patches.bat
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        apply-patches.bat
     - name: Build x86
       shell: cmd
       run: onekey-build-x86.bat
