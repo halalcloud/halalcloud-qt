@@ -1,0 +1,58 @@
+From 75146804e970fbf54737783e425b57de0ab569fc Mon Sep 17 00:00:00 2001
+From: MouriNaruto <Kenji.Mouri@outlook.com>
+Date: Fri, 5 Dec 2025 14:10:17 +0800
+Subject: [PATCH] Enable Mile.Windows.UniCrt integration support.
+
+---
+ cmake/QtBuildHelpers.cmake | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/cmake/QtBuildHelpers.cmake b/cmake/QtBuildHelpers.cmake
+index c33f63a4f05..5050a9b2ee1 100644
+--- a/cmake/QtBuildHelpers.cmake
++++ b/cmake/QtBuildHelpers.cmake
+@@ -482,5 +482,41 @@ macro(qt_internal_setup_build_and_global_variables)
+     qt_internal_set_qt_allow_download()
+ 
+     qt_internal_detect_dirty_features()
++
++    if(MSVC)
++        unset(CMAKE_MSVC_RUNTIME_LIBRARY)
++        unset(CMAKE_MSVC_RUNTIME_LIBRARY CACHE)
++        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "" FORCE)
++
++        include(CheckSymbolExists)
++        check_symbol_exists("_M_IX86" "" MILE_UNICRT_MSVC_TARGET_X86)
++        check_symbol_exists("_M_AMD64" "" MILE_UNICRT_MSVC_TARGET_X64)
++        check_symbol_exists("_M_ARM64" "" MILE_UNICRT_MSVC_TARGET_ARM64)
++        if (MILE_UNICRT_MSVC_TARGET_X86)
++            set(MILE_UNICRT_LIBRARY_PLATFORM "x86")
++        elseif (MILE_UNICRT_MSVC_TARGET_X64)
++            set(MILE_UNICRT_LIBRARY_PLATFORM "x64")
++        elseif (MILE_UNICRT_MSVC_TARGET_ARM64)
++            set(MILE_UNICRT_LIBRARY_PLATFORM "arm64")
++        else()
++            message(FATAL_ERROR "Unsupported MSVC target architecture for Mile.Windows.UniCrt")
++        endif()
++
++        get_filename_component(
++            MILE_UNICRT_LIBRARY
++            "${CMAKE_CURRENT_LIST_DIR}/../../Mile.Windows.UniCrt/${MILE_UNICRT_LIBRARY_PLATFORM}"
++            ABSOLUTE)
++
++        if (NOT IS_DIRECTORY "${MILE_UNICRT_LIBRARY}")
++            message(FATAL_ERROR
++                "Mile.Windows.UniCrt library not found at ${MILE_UNICRT_LIBRARY}")
++        endif()
++
++        link_directories("${MILE_UNICRT_LIBRARY}")
++        add_link_options(
++            "/DEFAULTLIB:ucrt$<$<CONFIG:Debug>:d>.lib"
++            "/NODEFAULTLIB:libucrt$<$<CONFIG:Debug>:d>.lib"
++        )
++    endif()
+ endmacro()
+ 
+-- 
+2.51.2.windows.1
+
