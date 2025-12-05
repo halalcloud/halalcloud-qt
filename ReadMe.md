@@ -32,5 +32,6 @@ Run onekey-build-*.bat which you want.
 
 ## Acknowledgment
 
-Thanks to Yuhang Zhao for guiding me how to submit patches to Qt community, and
-how to use customized VCRT in Qt build configurations.
+Thanks to Yuhang Zhao (https://github.com/wangwenx190) for guiding me how to
+submit patches to Qt community, and how to use customized VCRT in Qt build
+configurations.
