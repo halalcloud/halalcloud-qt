@@ -1,0 +1,61 @@
+From a9ac1d6fbcdb7f3f22fe3c02d1b7e3fd85ca5647 Mon Sep 17 00:00:00 2001
+From: Kenji Mouri <kenji.mouri@outlook.com>
+Date: Thu, 4 Dec 2025 20:00:48 +0800
+Subject: [PATCH] QWindowsFontDatabase: Fix build issues when disabling
+ Direct2D and/or DirectWrite in configure options
+
+Pick-to: 6.10
+Change-Id: I0b2bf2983edb2f95b134f6812dab05bc633b52fc
+---
+ src/gui/text/windows/qwindowsfontdatabase.cpp | 4 ++++
+ src/gui/text/windows/qwindowsfontdatabase_p.h | 4 ++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/src/gui/text/windows/qwindowsfontdatabase.cpp b/src/gui/text/windows/qwindowsfontdatabase.cpp
+index 93af1a9600b..0c6d9a31316 100644
+--- a/src/gui/text/windows/qwindowsfontdatabase.cpp
++++ b/src/gui/text/windows/qwindowsfontdatabase.cpp
+@@ -1113,17 +1113,21 @@ void QWindowsFontDatabase::removeApplicationFonts()
+     m_eudcFonts.clear();
+ }
+ 
++#if QT_CONFIG(directwrite)
+ QWindowsFontDatabase::FontHandle::FontHandle(IDWriteFontFace *face, const QString &name)
+     : fontFace(face), faceName(name)
+ {
+     fontFace->AddRef();
+ }
++#endif // !QT_NO_DIRECTWRITE
+ 
+ 
+ QWindowsFontDatabase::FontHandle::~FontHandle()
+ {
++#if QT_CONFIG(directwrite)
+     if (fontFace != nullptr)
+         fontFace->Release();
++#endif // !QT_NO_DIRECTWRITE
+ }
+ 
+ void QWindowsFontDatabase::releaseHandle(void *handle)
+diff --git a/src/gui/text/windows/qwindowsfontdatabase_p.h b/src/gui/text/windows/qwindowsfontdatabase_p.h
+index 92e3f04f968..856a5593722 100644
+--- a/src/gui/text/windows/qwindowsfontdatabase_p.h
++++ b/src/gui/text/windows/qwindowsfontdatabase_p.h
+@@ -78,10 +78,14 @@ public:
+ 
+     struct FontHandle {
+         FontHandle(const QString &name) : faceName(name) {}
++#if QT_CONFIG(directwrite)
+         FontHandle(IDWriteFontFace *face, const QString &name);
++#endif // !QT_NO_DIRECTWRITE
+         ~FontHandle();
+ 
++#if QT_CONFIG(directwrite)
+         IDWriteFontFace *fontFace = nullptr;
++#endif // !QT_NO_DIRECTWRITE
+         QString faceName;
+     };
+ 
+-- 
+2.51.2.windows.1
+
