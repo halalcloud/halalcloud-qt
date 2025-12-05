@@ -2,10 +2,6 @@
 	path = qtbase
 	url = https://github.com/qt/qtbase
 	branch = 6.8.3
-[submodule "qtimageformats"]
-	path = qtimageformats
-	url = https://github.com/qt/qtimageformats
-	branch = 6.8.3
 [submodule "qtsvg"]
 	path = qtsvg
 	url = https://github.com/qt/qtsvg
