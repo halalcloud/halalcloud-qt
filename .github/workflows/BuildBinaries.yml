@@ -20,10 +20,13 @@ jobs:
       with:
         submodules: 'recursive'
     - name: Build x86
+      shell: cmd
       run: onekey-build-x86.bat
     - name: Build x64
+      shell: cmd
       run: onekey-build-x64.bat
     - name: Build ARM64
+      shell: cmd
       run: onekey-build-arm64.bat
     - uses: actions/upload-artifact@v4
       with:
