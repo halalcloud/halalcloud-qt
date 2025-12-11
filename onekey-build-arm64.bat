@@ -49,6 +49,11 @@ cmake ^
   -DFEATURE_system_zlib=OFF ^
   -DFEATURE_direct2d=OFF ^
   -DFEATURE_directwrite=OFF ^
+  -DFEATURE_icu=OFF ^
+  -DFEATURE_winsdkicu=OFF ^
+  -DFEATURE_timezone=OFF ^
+  -DFEATURE_timezone_locale=OFF ^
+  -DFEATURE_vulkan=OFF ^
   ../../../../qtbase
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
 cmake --build . --parallel
@@ -63,6 +68,19 @@ cmake ^
   -DCMAKE_PREFIX_PATH=%BinaryFolder% ^
   -DCMAKE_INSTALL_PREFIX=%BinaryFolder% ^
   %CommonOptions% ../../../../qtsvg
+if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
+cmake --build . --parallel
+if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
+ninja install
+if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
+popd
+
+mkdir %ObjectFolder%\qttools
+pushd %ObjectFolder%\qttools
+cmake ^
+  -DCMAKE_PREFIX_PATH=%BinaryFolder% ^
+  -DCMAKE_INSTALL_PREFIX=%BinaryFolder% ^
+  %CommonOptions% ../../../../../qttools
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
 cmake --build . --parallel
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
