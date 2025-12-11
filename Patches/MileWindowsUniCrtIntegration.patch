@@ -1,6 +1,6 @@
-From 75146804e970fbf54737783e425b57de0ab569fc Mon Sep 17 00:00:00 2001
+From 8ab5db2e2e3e6c39ee937b908b33bca1b880370c Mon Sep 17 00:00:00 2001
 From: MouriNaruto <Kenji.Mouri@outlook.com>
-Date: Fri, 5 Dec 2025 14:10:17 +0800
+Date: Thu, 11 Dec 2025 11:36:01 +0800
 Subject: [PATCH] Enable Mile.Windows.UniCrt integration support.
 
 ---
@@ -8,10 +8,10 @@ Subject: [PATCH] Enable Mile.Windows.UniCrt integration support.
  1 file changed, 36 insertions(+)
 
 diff --git a/cmake/QtBuildHelpers.cmake b/cmake/QtBuildHelpers.cmake
-index c33f63a4f05..5050a9b2ee1 100644
+index af7070e232b..1fd5a61ace7 100644
 --- a/cmake/QtBuildHelpers.cmake
 +++ b/cmake/QtBuildHelpers.cmake
-@@ -482,5 +482,41 @@ macro(qt_internal_setup_build_and_global_variables)
+@@ -491,4 +491,40 @@ macro(qt_internal_setup_build_and_global_variables)
      qt_internal_set_qt_allow_download()
  
      qt_internal_detect_dirty_features()
@@ -52,7 +52,6 @@ index c33f63a4f05..5050a9b2ee1 100644
 +        )
 +    endif()
  endmacro()
- 
 -- 
 2.51.2.windows.1
 

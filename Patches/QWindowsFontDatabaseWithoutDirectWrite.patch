@@ -1,21 +1,19 @@
-From a9ac1d6fbcdb7f3f22fe3c02d1b7e3fd85ca5647 Mon Sep 17 00:00:00 2001
+From aa85b050fe673869920382aa015ed66b99cfa51d Mon Sep 17 00:00:00 2001
 From: Kenji Mouri <kenji.mouri@outlook.com>
-Date: Thu, 4 Dec 2025 20:00:48 +0800
-Subject: [PATCH] QWindowsFontDatabase: Fix build issues when disabling
- Direct2D and/or DirectWrite in configure options
+Date: Thu, 04 Dec 2025 20:00:48 +0800
+Subject: [PATCH] QWindowsFontDatabase: Fix build issues when disabling DirectWrite
 
-Pick-to: 6.10
+Pick-to: 6.11
 Change-Id: I0b2bf2983edb2f95b134f6812dab05bc633b52fc
+Reviewed-by: Zhao Yuhang <2546789017@qq.com>
+Reviewed-by: Joerg Bornemann <joerg.bornemann@qt.io>
 ---
- src/gui/text/windows/qwindowsfontdatabase.cpp | 4 ++++
- src/gui/text/windows/qwindowsfontdatabase_p.h | 4 ++++
- 2 files changed, 8 insertions(+)
 
 diff --git a/src/gui/text/windows/qwindowsfontdatabase.cpp b/src/gui/text/windows/qwindowsfontdatabase.cpp
-index 93af1a9600b..0c6d9a31316 100644
+index 93af1a9..0c6d9a3 100644
 --- a/src/gui/text/windows/qwindowsfontdatabase.cpp
 +++ b/src/gui/text/windows/qwindowsfontdatabase.cpp
-@@ -1113,17 +1113,21 @@ void QWindowsFontDatabase::removeApplicationFonts()
+@@ -1113,17 +1113,21 @@
      m_eudcFonts.clear();
  }
  
@@ -38,10 +36,10 @@ index 93af1a9600b..0c6d9a31316 100644
  
  void QWindowsFontDatabase::releaseHandle(void *handle)
 diff --git a/src/gui/text/windows/qwindowsfontdatabase_p.h b/src/gui/text/windows/qwindowsfontdatabase_p.h
-index 92e3f04f968..856a5593722 100644
+index 92e3f04..856a559 100644
 --- a/src/gui/text/windows/qwindowsfontdatabase_p.h
 +++ b/src/gui/text/windows/qwindowsfontdatabase_p.h
-@@ -78,10 +78,14 @@ public:
+@@ -78,10 +78,14 @@
  
      struct FontHandle {
          FontHandle(const QString &name) : faceName(name) {}
@@ -56,6 +54,3 @@ index 92e3f04f968..856a5593722 100644
          QString faceName;
      };
  
--- 
-2.51.2.windows.1
-
