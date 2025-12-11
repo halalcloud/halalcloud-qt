@@ -80,7 +80,7 @@ pushd %ObjectFolder%\qttools
 cmake ^
   -DCMAKE_PREFIX_PATH=%BinaryFolder% ^
   -DCMAKE_INSTALL_PREFIX=%BinaryFolder% ^
-  %CommonOptions% ../../../../../qttools
+  %CommonOptions% ../../../../qttools
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
 cmake --build . --parallel
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
