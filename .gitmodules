@@ -1,16 +1,16 @@
 [submodule "qtbase"]
 	path = qtbase
 	url = https://github.com/qt/qtbase
-	branch = 6.8.3
+	branch = 6.10.1
 [submodule "qtsvg"]
 	path = qtsvg
 	url = https://github.com/qt/qtsvg
-	branch = 6.8.3
+	branch = 6.10.1
 [submodule "qttools"]
 	path = qttools
 	url = https://github.com/qt/qttools
-	branch = 6.8.3
+	branch = 6.10.1
 [submodule "qttranslations"]
 	path = qttranslations
 	url = https://github.com/qt/qttranslations
-	branch = 6.8.3
+	branch = 6.10.1
