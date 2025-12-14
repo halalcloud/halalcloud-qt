@@ -13,6 +13,8 @@ Halal Cloud.
   toolchain to make the binary size smaller.
 - Use [qtbase patch 695987](https://codereview.qt-project.org/c/qt/qtbase/+/695987)
   for solving build issues with DirectWrite disabled.
+- Use [qtbase patch 699009](https://codereview.qt-project.org/c/qt/qtbase/+/699009)
+  for solving build issues with Visual Studio 2026 C++ projects.
 
 ## Usage
 
