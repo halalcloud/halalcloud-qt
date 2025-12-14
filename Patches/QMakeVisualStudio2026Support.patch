@@ -1,0 +1,101 @@
+From 96cf61d6725a3d65ad948d2efd33f7a39f3a8823 Mon Sep 17 00:00:00 2001
+From: Kenji Mouri <kenji.mouri@outlook.com>
+Date: Sun, 14 Dec 2025 01:31:52 +0800
+Subject: [PATCH] qmake: Support Visual Studio 2026
+
+Extend the detection of the MSVC_VER variable and make Visual Studio 2026 known to the vcxproj generator.
+
+Pick-to: 6.11
+Change-Id: I256fdf5f80bf0dd7b024ea3494e3b0dbfd486525
+---
+
+diff --git a/mkspecs/common/msvc-based-version.conf b/mkspecs/common/msvc-based-version.conf
+index adc8938..a687fa5 100644
+--- a/mkspecs/common/msvc-based-version.conf
++++ b/mkspecs/common/msvc-based-version.conf
+@@ -42,4 +42,10 @@
+     MSVC_TOOLSET_VER    = 143
+ }
+ 
++greaterThan(QMAKE_MSC_VER, 1949) {
++    # Visual Studio 2026 (18.0) / Visual C++ 19.50 and up
++    MSVC_VER            = 18.0
++    MSVC_TOOLSET_VER    = 145
++}
++
+ !isEmpty(COMPAT_MKSPEC):!$$COMPAT_MKSPEC: CONFIG += $$COMPAT_MKSPEC
+diff --git a/mkspecs/common/msvc-version.conf b/mkspecs/common/msvc-version.conf
+index 0130542..8270f02e 100644
+--- a/mkspecs/common/msvc-version.conf
++++ b/mkspecs/common/msvc-version.conf
+@@ -147,4 +147,10 @@
+     MSVC_TOOLSET_VER    = 143
+ }
+ 
++greaterThan(QMAKE_MSC_VER, 1949) {
++    # Visual Studio 2026 (18.0) / Visual C++ 19.50 and up
++    MSVC_VER            = 18.0
++    MSVC_TOOLSET_VER    = 145
++}
++
+ !isEmpty(COMPAT_MKSPEC):!$$COMPAT_MKSPEC: CONFIG += $$COMPAT_MKSPEC
+diff --git a/qmake/generators/win32/msvc_objectmodel.cpp b/qmake/generators/win32/msvc_objectmodel.cpp
+index 6517e5c..0776a4a 100644
+--- a/qmake/generators/win32/msvc_objectmodel.cpp
++++ b/qmake/generators/win32/msvc_objectmodel.cpp
+@@ -25,6 +25,8 @@
+     int versionMajor = versionView.left(idx).toInt();
+     int versionMinor = versionView.mid(idx + 1).toInt();
+ 
++    if (versionMajor == 18)
++        return NET2026;
+     if (versionMajor == 17)
+         return NET2022;
+     if (versionMajor == 16)
+diff --git a/qmake/generators/win32/msvc_objectmodel.h b/qmake/generators/win32/msvc_objectmodel.h
+index 190d6c7..58f818a3 100644
+--- a/qmake/generators/win32/msvc_objectmodel.h
++++ b/qmake/generators/win32/msvc_objectmodel.h
+@@ -29,7 +29,8 @@
+     NET2015 = 0xd0,
+     NET2017 = 0xe0,
+     NET2019,
+-    NET2022
++    NET2022,
++    NET2026
+ };
+ 
+ DotNET vsVersionFromString(const ProString &versionString);
+diff --git a/qmake/generators/win32/msvc_vcproj.cpp b/qmake/generators/win32/msvc_vcproj.cpp
+index 1566f72..7c2e056 100644
+--- a/qmake/generators/win32/msvc_vcproj.cpp
++++ b/qmake/generators/win32/msvc_vcproj.cpp
+@@ -56,6 +56,8 @@
+                                   "\n# Visual Studio Version 16";
+ const char _slnHeader143[]      = "Microsoft Visual Studio Solution File, Format Version 12.00"
+                                   "\n# Visual Studio Version 17";
++const char _slnHeader145[]      = "Microsoft Visual Studio Solution File, Format Version 12.00"
++                                  "\n# Visual Studio Version 18";
+                                   // The following UUID _may_ change for later servicepacks...
+                                   // If so we need to search through the registry at
+                                   // HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\7.0\Projects
+@@ -502,6 +504,9 @@
+     }
+ 
+     switch (vcProject.Configuration.CompilerVersion) {
++    case NET2026:
++        t << _slnHeader145;
++        break;
+     case NET2022:
+         t << _slnHeader143;
+         break;
+@@ -882,6 +887,9 @@
+     // Own elements -----------------------------
+     vcProject.Name = project->first("QMAKE_ORIG_TARGET").toQString();
+     switch (vcProject.Configuration.CompilerVersion) {
++    case NET2026:
++        vcProject.Version = "18.00";
++        break;
+     case NET2022:
+         vcProject.Version = "17.00";
+         break;
