@@ -1,56 +1,22 @@
-From 8ab5db2e2e3e6c39ee937b908b33bca1b880370c Mon Sep 17 00:00:00 2001
+From b9e4569769f8ce26991e72151ac33e216dbd40ff Mon Sep 17 00:00:00 2001
 From: MouriNaruto <Kenji.Mouri@outlook.com>
 Date: Thu, 11 Dec 2025 11:36:01 +0800
 Subject: [PATCH] Enable Mile.Windows.UniCrt integration support.
 
 ---
- cmake/QtBuildHelpers.cmake | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ cmake/QtBuildHelpers.cmake | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/cmake/QtBuildHelpers.cmake b/cmake/QtBuildHelpers.cmake
-index af7070e232b..1fd5a61ace7 100644
+index af7070e232b..3cdd0547e9a 100644
 --- a/cmake/QtBuildHelpers.cmake
 +++ b/cmake/QtBuildHelpers.cmake
-@@ -491,4 +491,40 @@ macro(qt_internal_setup_build_and_global_variables)
+@@ -491,4 +491,6 @@ macro(qt_internal_setup_build_and_global_variables)
      qt_internal_set_qt_allow_download()
  
      qt_internal_detect_dirty_features()
 +
-+    if(MSVC)
-+        unset(CMAKE_MSVC_RUNTIME_LIBRARY)
-+        unset(CMAKE_MSVC_RUNTIME_LIBRARY CACHE)
-+        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STRING "" FORCE)
-+
-+        include(CheckSymbolExists)
-+        check_symbol_exists("_M_IX86" "" MILE_UNICRT_MSVC_TARGET_X86)
-+        check_symbol_exists("_M_AMD64" "" MILE_UNICRT_MSVC_TARGET_X64)
-+        check_symbol_exists("_M_ARM64" "" MILE_UNICRT_MSVC_TARGET_ARM64)
-+        if (MILE_UNICRT_MSVC_TARGET_X86)
-+            set(MILE_UNICRT_LIBRARY_PLATFORM "x86")
-+        elseif (MILE_UNICRT_MSVC_TARGET_X64)
-+            set(MILE_UNICRT_LIBRARY_PLATFORM "x64")
-+        elseif (MILE_UNICRT_MSVC_TARGET_ARM64)
-+            set(MILE_UNICRT_LIBRARY_PLATFORM "arm64")
-+        else()
-+            message(FATAL_ERROR "Unsupported MSVC target architecture for Mile.Windows.UniCrt")
-+        endif()
-+
-+        get_filename_component(
-+            MILE_UNICRT_LIBRARY
-+            "${CMAKE_CURRENT_LIST_DIR}/../../Mile.Windows.UniCrt/${MILE_UNICRT_LIBRARY_PLATFORM}"
-+            ABSOLUTE)
-+
-+        if (NOT IS_DIRECTORY "${MILE_UNICRT_LIBRARY}")
-+            message(FATAL_ERROR
-+                "Mile.Windows.UniCrt library not found at ${MILE_UNICRT_LIBRARY}")
-+        endif()
-+
-+        link_directories("${MILE_UNICRT_LIBRARY}")
-+        add_link_options(
-+            "/DEFAULTLIB:ucrt$<$<CONFIG:Debug>:d>.lib"
-+            "/NODEFAULTLIB:libucrt$<$<CONFIG:Debug>:d>.lib"
-+        )
-+    endif()
++    include(${CMAKE_CURRENT_LIST_DIR}/../../Mile.Windows.UniCrt/Mile.Windows.UniCrt.cmake)
  endmacro()
 -- 
 2.51.2.windows.1
