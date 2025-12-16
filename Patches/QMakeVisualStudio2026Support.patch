@@ -1,12 +1,13 @@
-From 96cf61d6725a3d65ad948d2efd33f7a39f3a8823 Mon Sep 17 00:00:00 2001
+From 1c96661f1205c69dabaa40594898230e7934cea8 Mon Sep 17 00:00:00 2001
 From: Kenji Mouri <kenji.mouri@outlook.com>
 Date: Sun, 14 Dec 2025 01:31:52 +0800
 Subject: [PATCH] qmake: Support Visual Studio 2026
 
 Extend the detection of the MSVC_VER variable and make Visual Studio 2026 known to the vcxproj generator.
 
-Pick-to: 6.11
+Pick-to: 6.11 6.10 6.8 6.5
 Change-Id: I256fdf5f80bf0dd7b024ea3494e3b0dbfd486525
+Reviewed-by: Joerg Bornemann <joerg.bornemann@qt.io>
 ---
 
 diff --git a/mkspecs/common/msvc-based-version.conf b/mkspecs/common/msvc-based-version.conf
