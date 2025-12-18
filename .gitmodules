@@ -14,3 +14,7 @@
 	path = qttranslations
 	url = https://github.com/qt/qttranslations
 	branch = 6.10.1
+[submodule "qtimageformats"]
+	path = qtimageformats
+	url = https://github.com/qt/qtimageformats
+	branch = 6.10.1
