@@ -75,6 +75,19 @@ ninja install
 if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
 popd
 
+mkdir %ObjectFolder%\qtimageformats
+pushd %ObjectFolder%\qtimageformats
+cmake ^
+  -DCMAKE_PREFIX_PATH=%BinaryFolder% ^
+  -DCMAKE_INSTALL_PREFIX=%BinaryFolder% ^
+  %CommonOptions% ../../../../qtimageformats
+if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
+cmake --build . --parallel
+if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
+ninja install
+if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
+popd
+
 mkdir %ObjectFolder%\qttools
 pushd %ObjectFolder%\qttools
 cmake ^
