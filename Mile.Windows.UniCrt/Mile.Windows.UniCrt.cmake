@@ -55,8 +55,8 @@ if(NOT MILE_WINDOWS_UNICRT_INCLUDED)
         string(APPEND VCPKG_LINKER_FLAGS_DEBUG " /DEFAULTLIB:ucrtd.lib /NODEFAULTLIB:libucrtd.lib")
         string(APPEND VCPKG_LINKER_FLAGS_RELEASE " /DEFAULTLIB:ucrt.lib /NODEFAULTLIB:libucrt.lib")
     elseif(MSVC_VERSION)
-        link_directories("${MILE_UNICRT_LIBRARY_PATH}")
         add_link_options(
+            "/LIBPATH:${MILE_UNICRT_LIBRARY_PATH}"
             "/DEFAULTLIB:ucrt$<$<CONFIG:Debug>:d>.lib"
             "/NODEFAULTLIB:libucrt$<$<CONFIG:Debug>:d>.lib"
         )
